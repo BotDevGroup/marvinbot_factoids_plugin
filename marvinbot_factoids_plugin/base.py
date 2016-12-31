@@ -23,14 +23,8 @@ QUESTION_PATTERNS = [
 
 # TODO: This should come from mongo!
 DISABLED_SUBJECTS = [
-    'si',
-    'eso',
-    'que',
-    'no',
-    'cual',
-    'quien',
-    'donde',
-    'cuando'
+    'por que', 'why', 'si', 'eso', 'que', 'no', 'cual', 'quien', 'donde', 'cuando',
+    'porque'
 ]
 
 
