@@ -25,7 +25,7 @@ class Factoid(mongoengine.Document):
     @classmethod
     def by_chat_id_and_subject(cls, chat_id, subject):
         try:
-            return cls.objects.get(chat_id=chat_id, subject=subject)
+            return cls.objects.get(chat_id=chat_id, subject_iexact=subject)
         except cls.DoesNotExist:
             return None
 
