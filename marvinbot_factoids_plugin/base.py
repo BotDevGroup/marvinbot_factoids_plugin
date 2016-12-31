@@ -24,7 +24,7 @@ QUESTION_PATTERNS = [
 
 class FactoidsPlugin(Plugin):
     def __init__(self):
-        super(FactoidsPlugin, self).__init__('factoids_plugin')
+        super(FactoidsPlugin, self).__init__('factoids')
         self.bot = None
         self.config = None
         self.factoid_patterns = []
