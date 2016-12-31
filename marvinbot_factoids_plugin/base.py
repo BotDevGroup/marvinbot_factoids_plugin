@@ -21,6 +21,18 @@ QUESTION_PATTERNS = [
     r'^(?:(?:(?:y|entonces)\s+)?(?:qu|kh?)[ée]\s(?:es?|eran?|son)\s+)?(?P<subject>(?:\s?[\w\u00C0-\u017F]+){,5}|[#@]\w+)\?+'
 ]
 
+# TODO: This should come from mongo!
+DISABLED_SUBJECTS = [
+    'si',
+    'eso',
+    'que',
+    'no',
+    'cual',
+    'quien',
+    'donde',
+    'cuando'
+]
+
 
 class FactoidsPlugin(Plugin):
     def __init__(self):
@@ -90,6 +102,8 @@ class FactoidsPlugin(Plugin):
         def handle_factoid_match(m):
             chat_id = message.chat_id
             subject = trim_markdown(m.group('subject'))
+            if subject.lower() in DISABLED_SUBJECTS:
+                return
             verb = trim_markdown(m.group('verb'))
             predicate = trim_markdown(m.group('predicate'))
             user_id = message.from_user.id
@@ -117,6 +131,8 @@ class FactoidsPlugin(Plugin):
         def handle_question_match(m):
             chat_id = message.chat_id
             subject = m.group('subject')
+            if subject.lower() in DISABLED_SUBJECTS:
+                return
             factoid = FactoidsPlugin.fetch_factoid(chat_id, subject)
             if factoid is None or factoid.date_deleted is not None:
                 return
