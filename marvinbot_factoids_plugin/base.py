@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from marvinbot.utils import localized_date, get_message
+from marvinbot.utils import localized_date, get_message, trim_markdown
 from marvinbot.handlers import CommonFilters, CommandHandler, MessageHandler
 from marvinbot.filters import RegexpFilter, MultiRegexpFilter
 from marvinbot_factoids_plugin.models import Factoid
@@ -35,7 +35,7 @@ class FactoidsPlugin(Plugin):
             'short_name': self.name,
             'enabled': True,
             'unknown_username': 'Alguien',
-            'answer_format': '💬 {username} ha dicho que {subject} {verb} {predicate}'
+            'answer_format': '💬 *{username}* ha dicho que *{subject}* {verb} {predicate}'
         }
 
     def configure(self, config):
@@ -89,9 +89,9 @@ class FactoidsPlugin(Plugin):
 
         def handle_factoid_match(m):
             chat_id = message.chat_id
-            subject = m.group('subject')
-            verb = m.group('verb')
-            predicate = m.group('predicate')
+            subject = trim_markdown(m.group('subject'))
+            verb = trim_markdown(m.group('verb'))
+            predicate = trim_markdown(m.group('predicate'))
             user_id = message.from_user.id
             username = message.from_user.username
             date_added = localized_date()
@@ -114,21 +114,11 @@ class FactoidsPlugin(Plugin):
 
             result = FactoidsPlugin.add_factoid(**payload)
 
-            if result:
-                factoid = FactoidsPlugin.fetch_factoid(chat_id, subject)
-                self.bot.sendMessage(chat_id=7175022, text='✅ Factoid added')
-                self.bot.sendMessage(chat_id=7175022, text=str(factoid))
-            else:
-                self.bot.sendMessage(chat_id=7175022,
-                                     text="❌ Unable to add factoid.")
-
         def handle_question_match(m):
             chat_id = message.chat_id
             subject = m.group('subject')
             factoid = FactoidsPlugin.fetch_factoid(chat_id, subject)
             if factoid is None or factoid.date_deleted is not None:
-                self.bot.sendMessage(chat_id=7175022,
-                                     text="❌ Factoid not found. Chat ID: {} Subject: {}. Factoid: {}".format(chat_id, subject, factoid))
                 return
             unknown_username = self.config.get('unknown_username')
             answer_format = self.config.get('answer_format')
@@ -139,7 +129,8 @@ class FactoidsPlugin(Plugin):
                                             subject=subject,
                                             verb=verb,
                                             predicate=predicate)
-            self.bot.sendMessage(chat_id=chat_id, text=response)
+            self.bot.sendMessage(chat_id=chat_id, text=response,
+                                 parse_mode='Markdown')
 
         for pattern in self.factoid_patterns:
             m = pattern.match(text)
