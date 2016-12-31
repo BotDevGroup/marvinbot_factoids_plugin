@@ -96,9 +96,6 @@ class FactoidsPlugin(Plugin):
         if len(text) == 0:
             return
 
-        if not User.is_user_admin(message.from_user):
-            return
-
         def handle_factoid_match(m):
             chat_id = message.chat_id
             subject = trim_markdown(m.group('subject'))
