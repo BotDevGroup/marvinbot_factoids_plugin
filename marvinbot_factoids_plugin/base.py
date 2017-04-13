@@ -53,7 +53,7 @@ class FactoidsPlugin(Plugin):
 
     def setup_handlers(self, adapter):
         self.bot = adapter.bot
-        self.add_handler(MessageHandler(CommonFilters.text, self.on_text), priority=80)
+        self.add_handler(MessageHandler([RegexpFilter(FACTOID_PATTERNS[0]), RegexpFilter(QUESTION_PATTERNS[0])], self.on_text, False), priority=80)
 
     def setup_schedules(self, adapter):
         pass
