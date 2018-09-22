@@ -1,6 +1,6 @@
-# Marvinbot Simple Replies Plugin
+# Marvinbot Factoids Plugin
 
-A plugin for creating simple replies. Provides a single command named `/reply`, which allow creation and deletion of replies.
+A plugin that provide factoids from what was mentioned on the chat.
 
 # Requirements
 
