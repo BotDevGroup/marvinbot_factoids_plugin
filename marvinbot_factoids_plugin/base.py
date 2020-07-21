@@ -14,7 +14,7 @@ import threading
 log = logging.getLogger(__name__)
 
 FACTOID_PATTERNS = [
-    r'^(?P<subject>(?:\s?[\w\u00C0-\u017F]+){,5}|[#@]\w+)\s+(?P<verb>es|est[aá]|son|eran?|ser[aá]n|somos|[eé]ramos|seremos|ser[íi]an?|ser[íi]amos|fue|fueron|fuisteis)\s+(?P<predicate>[^\?]*)(?<![\?])$'
+    r'^(?P<subject>(?:\s?[\w\u00C0-\u017F]+){,5}|[#@]\w+)\s+(?P<verb>is|es|est[aá]?|son|eran?|ser[aá]n|somos|[eé]ramos|seremos|ser[íi]an?|ser[íi]amos|fue|fueron|fuisteis)\s+(?P<predicate>[^\?]*)(?<![\?])$'
 ]
 
 QUESTION_PATTERNS = [
