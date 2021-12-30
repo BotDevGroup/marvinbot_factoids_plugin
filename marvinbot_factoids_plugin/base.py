@@ -40,7 +40,6 @@ class FactoidsPlugin(Plugin):
         return {
             'short_name': self.name,
             'enabled': True,
-            'unknown_username': 'Alguien',
             'answer_format': '💬 *{username}* ha dicho que *{subject}* {verb} {predicate}'
         }
 
@@ -85,7 +84,7 @@ class FactoidsPlugin(Plugin):
         return False
 
     def on_text(self, update, **kwargs):
-        message = get_message(update)
+        message = update.effective_message
         text = message.text
         if len(text) == 0:
             return
@@ -117,7 +116,7 @@ class FactoidsPlugin(Plugin):
             if factoid:
                 payload['id'] = factoid.id
 
-            result = FactoidsPlugin.add_factoid(**payload)
+            FactoidsPlugin.add_factoid(**payload)
 
         def handle_question_match(m):
             chat_id = message.chat_id

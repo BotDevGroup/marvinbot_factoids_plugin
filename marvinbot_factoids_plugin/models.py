@@ -9,7 +9,7 @@ class Factoid(mongoengine.Document):
     verb = mongoengine.StringField(required=True)
     predicate = mongoengine.StringField(required=True)
     user_id = mongoengine.LongField(required=True)
-    username = mongoengine.StringField(required=True)
+    username = mongoengine.StringField(required=False)
 
     date_added = mongoengine.DateTimeField(default=localized_date)
     date_modified = mongoengine.DateTimeField(default=localized_date)
